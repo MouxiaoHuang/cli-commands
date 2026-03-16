@@ -3,6 +3,7 @@
 
 [![CI](https://github.com/MouxiaoHuang/linux-command/actions/workflows/ci.yml/badge.svg)](https://github.com/MouxiaoHuang/linux-command/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/linux-command)](https://pypi.org/project/linux-command/)
+[![GitHub stars](https://img.shields.io/github/stars/MouxiaoHuang/linux-command)](https://github.com/MouxiaoHuang/linux-command/stargazers)
 
 `linux-command` is a versatile package that provides a collection of frequently used Linux commands in a convenient wrapper. It can be installed via pip and accessed using the `cmd` command in the terminal.
 

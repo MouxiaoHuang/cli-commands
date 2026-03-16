@@ -482,7 +482,7 @@ def main():
 
             if '*' in source:
                 # Handle wildcard batch conversion
-                source_files = glob.glob(source)
+                source_files = sorted(glob.glob(source))
                 destination_dir = os.path.dirname(destination)
                 file_extension = destination.split('.')[-1]
 

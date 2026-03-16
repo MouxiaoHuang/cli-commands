@@ -11,6 +11,16 @@ To install the package, run the following command:
 pip install linux-command
 ```
 
+## Install From Source (Development)
+
+If you want to develop or modify the tool locally:
+
+```bash
+git clone https://github.com/MouxiaoHuang/linux-command.git
+cd linux-command
+pip install -e .
+```
+
 ## Usage
 
 Once installed, you can access all commands using `cmd` followed by the specific command name. You can use `cmd -h` or `cmd --help` to see the supported commands. Below is a list of supported commands along with examples for each.
@@ -141,6 +151,12 @@ cmd ps-grep python
 cmd kill process_name
 ```
 
+To force kill:
+
+```bash
+cmd kill --force process_name
+```
+
 ---
 
 ### 21. `df` - Show disk usage in human-readable format
@@ -149,7 +165,7 @@ cmd kill process_name
 cmd df
 ```
 
-### 22. `du [path]` - Show disk usage for a specific file or directory
+### 22. `du [path]` - Show disk usage for a specific file or directory (default: current directory)
 
 ```bash
 cmd du /path/to/directory
@@ -241,6 +257,21 @@ cmd zip-compress /path/to/output.zip /path/to/dir1 /path/to/dir2
 This command will create a `.zip` file at `/path/to/output.zip` that contains everything in `/path/to/dir1` and `/path/to/dir2`.
 
 ---
+
+## Aliases
+
+These commands are aliases for the same behavior:
+
+- `lsf` = `ls-file`
+- `lsd` = `ls-dir`
+- `ls-bs` = `ls-block-size`
+- `disk` = `du`
+- `tar` = `tar-compress`
+- `untar` = `tar-extract`
+- `zip` = `zip-compress`
+- `zip-all` = `zip-compress`
+- `unzip` = `unzip-all`
+- `convert-vid` = `convert-video`
 
 ## Contributing
 

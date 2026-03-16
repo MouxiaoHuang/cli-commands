@@ -35,7 +35,7 @@ from fnmatch import fnmatch
 
 
 # Define the version 
-VERSION = "0.3.0"
+VERSION = "0.3.1"
 PROJECT_URL = "https://github.com/MouxiaoHuang/linux-command" 
 
 

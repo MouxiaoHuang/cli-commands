@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+- Fix: ensure deterministic ordering when converting videos with wildcard patterns.
+
 ## 0.3.0
 
 - Security: remove shell injection risks by replacing `os.system` with `subprocess.run` and safe path handling.

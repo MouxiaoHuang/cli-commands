@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added:
+- Changed:
+- Fixed:
+
 ## 0.3.1
 
 - Fix: ensure deterministic ordering when converting videos with wildcard patterns.

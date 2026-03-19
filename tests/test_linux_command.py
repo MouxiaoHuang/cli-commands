@@ -67,6 +67,13 @@ def test_ls_block_size_ok(monkeypatch):
     assert run_cmd_spy.calls[0] == ["ls", "--block-size=M"]
 
 
+def test_ls_block_size_alias(monkeypatch):
+    run_cmd_spy = RunCmdSpy()
+    monkeypatch.setattr(lc, "run_cmd", run_cmd_spy)
+    run_main_with_args(monkeypatch, ["ls-bs", "K"])
+    assert run_cmd_spy.calls[0] == ["ls", "--block-size=K"]
+
+
 def test_ls_block_size_missing_arg(monkeypatch, capsys):
     run_spy = RunSpy()
     run_main_with_args(monkeypatch, ["ls-block-size"], run_spy)
@@ -151,6 +158,13 @@ def test_du_default(monkeypatch):
     run_spy = RunSpy()
     run_main_with_args(monkeypatch, ["du"], run_spy)
     assert run_spy.calls[0] == ["du", "-sh", "."]
+
+
+def test_df(monkeypatch):
+    run_cmd_spy = RunCmdSpy()
+    monkeypatch.setattr(lc, "run_cmd", run_cmd_spy)
+    run_main_with_args(monkeypatch, ["df"])
+    assert run_cmd_spy.calls[0] == ["df", "-h"]
 
 
 def test_disk_alias(monkeypatch):
@@ -285,6 +299,14 @@ def test_zip_commands(monkeypatch, tmp_path):
     run_main_with_args(monkeypatch, ["zip-compress", "out.zip", str(tmp_path / "a.txt")])
     assert run_cmd_spy.calls[0][0:3] == ["zip", "-r", "out.zip"]
     assert run_cmd_spy.calls[1] == ["zip", "-r", "out.zip", str(tmp_path / "a.txt")]
+
+
+def test_zip_all_alias(monkeypatch, tmp_path):
+    (tmp_path / "a.txt").write_text("x")
+    run_cmd_spy = RunCmdSpy()
+    monkeypatch.setattr(lc, "run_cmd", run_cmd_spy)
+    run_main_with_args(monkeypatch, ["zip-all", "out.zip", str(tmp_path / "a.txt")])
+    assert run_cmd_spy.calls[0] == ["zip", "-r", "out.zip", str(tmp_path / "a.txt")]
 
 
 def test_convert_video_single(monkeypatch):

@@ -35,61 +35,452 @@ from fnmatch import fnmatch
 
 
 # Define the version 
-VERSION = "0.3.1"
+VERSION = "0.3.2"
 PROJECT_URL = "https://github.com/MouxiaoHuang/linux-command" 
 
 
-# Command descriptions
+# Command descriptions (short and precise)
 commands = {
-    'ls': 'List contents.',
-    'ls-all': 'List all files, including hidden ones.',
-    'lsf': 'Count all files or filter by a specified pattern, extension or keyword. Same as `ls-file`.',
-    'ls-file': 'Count all files or filter by a specified pattern, extension or keyword. Same as `lsf`.',
-    'lsd': 'Count all directories. Same as `ls-dir`.',
-    'ls-dir': 'Count all directories. Same as `lsd`.',
-    'ls-reverse': 'List files and directories in reverse order.',
-    'ls-time': 'List sorted by modification time, newest first.',
-    'ls-human': 'List in human-readable format (for file sizes)',
-    'ls-long': 'Long format listing',
-    'ls-size': 'Sort files by size',
-    'ls-recursive': 'Recursively list files in directories and subdirectories.',
-    'ls-recursive-size': 'List all files and directories recursively, with sizes in human-readable format',
-    'ls-bs': 'Display the size of each file in specified block size (e.g., K, M, G).',
-    'ls-block-size': 'Display the size of each file in specified block size (e.g., K, M, G).',
-    'ps': 'Basic process list.',
+    'ls': 'List files in current directory.',
+    'ls-all': 'List files including hidden.',
+    'lsf': 'Count files; optionally filter by pattern.',
+    'ls-file': 'Count files; optionally filter by pattern.',
+    'lsd': 'Count directories in current directory.',
+    'ls-dir': 'Count directories in current directory.',
+    'ls-reverse': 'List files in reverse order.',
+    'ls-time': 'List by modified time (newest first).',
+    'ls-human': 'List with human-readable sizes.',
+    'ls-long': 'List in long format.',
+    'ls-size': 'List by size (largest first).',
+    'ls-recursive': 'List files recursively.',
+    'ls-recursive-size': 'Recursive list with human-readable sizes.',
+    'ls-bs': 'List with custom block size.',
+    'ls-block-size': 'List with custom block size.',
+    'ps': 'Show basic process list.',
     'ps-all': 'Show all processes.',
-    'ps-user': 'Show processes for a specific user',
-    'ps-aux': 'Show detailed information about all processes.',
+    'ps-user': 'Show processes for a user.',
+    'ps-aux': 'Show detailed process list.',
     'ps-sort-memory': 'Sort processes by memory usage.',
     'ps-sort-cpu': 'Sort processes by CPU usage.',
-    'ps-grep': 'Search for a specific process by name or keyword.',
-    'kill': 'Kill a process with PID or keyword in its name.',
-    'df': 'Show disk usage.',
-    'du': 'Show disk usage of a directory. Default: current directory.',
-    'disk': 'Show disk usage of a directory. Default: current directory.',
-    'rm': 'Remove file, directory, or multiple files by patterns (e.g., *.txt)',
-    'grep': 'Search for a pattern in files or output.',
-    'tar': 'Pack into .tar or .tar.gz file.',
-    'tar-compress': 'Pack into .tar or .tar.gz file.',
-    'untar': 'Unpack .tar or .tar.gz file, or batch process in a directory.',
-    'tar-extract': 'Unpack .tar or .tar.gz file, or batch process in a directory.',
-    'tar-list': 'List all contents in a tar file.',
-    'tar-add': 'Add a file to a tar file.',
-    'zip': 'Pack a folder to a .zip file.',
-    'zip-compress': 'Pack a folder to a .zip file.',
-    'zip-all': 'Pack a folder to a .zip file.',
-    'unzip': 'Unpack all .zip files in a directory to another.',
-    'unzip-all': 'Unpack all .zip files in a directory to another.',
-    'convert-vid': 'Video pattern trans. Usage: convert-video [source file or pattern] [destination file or pattern]',
-    'convert-video': 'Video pattern trans. Usage: convert-video [source file or pattern] [destination file or pattern]',
+    'ps-grep': 'Search processes by keyword.',
+    'kill': 'Kill process by PID or keyword.',
+    'df': 'Show disk free space.',
+    'du': 'Show directory size (default: current).',
+    'disk': 'Show directory size (default: current).',
+    'rm': 'Remove file or directory with confirmation.',
+    'grep': 'Search pattern in a file.',
+    'tar': 'Create .tar/.tar.gz archive.',
+    'tar-compress': 'Create .tar/.tar.gz archive.',
+    'untar': 'Extract .tar/.tar.gz or batch from dir.',
+    'tar-extract': 'Extract .tar/.tar.gz or batch from dir.',
+    'tar-list': 'List contents of a tar file.',
+    'tar-add': 'Add file to a tar archive.',
+    'zip': 'Create .zip archive.',
+    'zip-compress': 'Create .zip archive.',
+    'zip-all': 'Create .zip archive.',
+    'unzip': 'Extract all zips in a directory.',
+    'unzip-all': 'Extract all zips in a directory.',
+    'convert-vid': 'Convert video file(s) or patterns.',
+    'convert-video': 'Convert video file(s) or patterns.',
+}
+
+aliases = {
+    'ls-file': ['lsf'],
+    'ls-dir': ['lsd'],
+    'ls-block-size': ['ls-bs'],
+    'du': ['disk'],
+    'tar-compress': ['tar'],
+    'tar-extract': ['untar'],
+    'zip-compress': ['zip', 'zip-all'],
+    'unzip-all': ['unzip'],
+    'convert-video': ['convert-vid'],
+}
+
+alias_to_primary = {}
+for primary, alias_list in aliases.items():
+    for alias in alias_list:
+        alias_to_primary[alias] = primary
+
+# One-line usage examples for help output
+command_usage = {
+    'ls': 'cmd ls',
+    'ls-all': 'cmd ls-all',
+    'lsf': 'cmd lsf *.py',
+    'ls-file': 'cmd ls-file report*',
+    'lsd': 'cmd lsd',
+    'ls-dir': 'cmd ls-dir',
+    'ls-reverse': 'cmd ls-reverse',
+    'ls-time': 'cmd ls-time',
+    'ls-human': 'cmd ls-human',
+    'ls-long': 'cmd ls-long',
+    'ls-size': 'cmd ls-size',
+    'ls-recursive': 'cmd ls-recursive',
+    'ls-recursive-size': 'cmd ls-recursive-size',
+    'ls-bs': 'cmd ls-bs M',
+    'ls-block-size': 'cmd ls-block-size K',
+    'ps': 'cmd ps',
+    'ps-all': 'cmd ps-all',
+    'ps-user': 'cmd ps-user alice',
+    'ps-aux': 'cmd ps-aux',
+    'ps-sort-memory': 'cmd ps-sort-memory',
+    'ps-sort-cpu': 'cmd ps-sort-cpu',
+    'ps-grep': 'cmd ps-grep python',
+    'kill': 'cmd kill 1234',
+    'df': 'cmd df',
+    'du': 'cmd du /path',
+    'disk': 'cmd disk /path',
+    'rm': 'cmd rm ./tmp *.log',
+    'grep': 'cmd grep \"TODO\" README.md',
+    'tar': 'cmd tar ./src out.tar.gz',
+    'tar-compress': 'cmd tar-compress ./src out.tar.gz',
+    'untar': 'cmd untar archive.tar.gz ./out',
+    'tar-extract': 'cmd tar-extract archive.tar ./out',
+    'tar-list': 'cmd tar-list archive.tar',
+    'tar-add': 'cmd tar-add file.txt archive.tar',
+    'zip': 'cmd zip out.zip src1 src2',
+    'zip-compress': 'cmd zip-compress out.zip src1',
+    'zip-all': 'cmd zip-all out.zip src1',
+    'unzip': 'cmd unzip ./zips ./out',
+    'unzip-all': 'cmd unzip-all ./zips ./out',
+    'convert-vid': 'cmd convert-vid \"*.mov\" ./out.mp4',
+    'convert-video': 'cmd convert-video \"*.mov\" ./out.mp4',
+}
+
+# Optional detailed help per command
+command_help_details = {
+    'ls': {
+        'usage': 'cmd ls [path]',
+        'examples': [
+            'cmd ls',
+            'cmd ls ./src',
+        ],
+    },
+    'ls-all': {
+        'usage': 'cmd ls-all [path]',
+        'examples': [
+            'cmd ls-all',
+            'cmd ls-all ./src',
+        ],
+    },
+    'lsf': {
+        'usage': 'cmd lsf [pattern]',
+        'examples': [
+            'cmd lsf',
+            'cmd lsf *.py',
+        ],
+    },
+    'ls-file': {
+        'usage': 'cmd ls-file [pattern]',
+        'examples': [
+            'cmd ls-file',
+            'cmd ls-file report*',
+        ],
+    },
+    'lsd': {
+        'usage': 'cmd lsd',
+        'examples': [
+            'cmd lsd',
+        ],
+    },
+    'ls-dir': {
+        'usage': 'cmd ls-dir',
+        'examples': [
+            'cmd ls-dir',
+        ],
+    },
+    'ls-reverse': {
+        'usage': 'cmd ls-reverse [path]',
+        'examples': [
+            'cmd ls-reverse',
+            'cmd ls-reverse ./src',
+        ],
+    },
+    'ls-time': {
+        'usage': 'cmd ls-time [path]',
+        'examples': [
+            'cmd ls-time',
+            'cmd ls-time ./src',
+        ],
+    },
+    'ls-human': {
+        'usage': 'cmd ls-human [path]',
+        'examples': [
+            'cmd ls-human',
+            'cmd ls-human ./src',
+        ],
+    },
+    'ls-long': {
+        'usage': 'cmd ls-long [path]',
+        'examples': [
+            'cmd ls-long',
+            'cmd ls-long ./src',
+        ],
+    },
+    'ls-size': {
+        'usage': 'cmd ls-size [path]',
+        'examples': [
+            'cmd ls-size',
+            'cmd ls-size ./src',
+        ],
+    },
+    'ls-recursive': {
+        'usage': 'cmd ls-recursive [path]',
+        'examples': [
+            'cmd ls-recursive',
+            'cmd ls-recursive ./src',
+        ],
+    },
+    'ls-recursive-size': {
+        'usage': 'cmd ls-recursive-size [path]',
+        'examples': [
+            'cmd ls-recursive-size',
+            'cmd ls-recursive-size ./src',
+        ],
+    },
+    'ls-bs': {
+        'usage': 'cmd ls-bs <K|M|G>',
+        'examples': [
+            'cmd ls-bs M',
+        ],
+    },
+    'ls-block-size': {
+        'usage': 'cmd ls-block-size <K|M|G>',
+        'examples': [
+            'cmd ls-block-size K',
+        ],
+    },
+    'ps': {
+        'usage': 'cmd ps',
+        'examples': [
+            'cmd ps',
+        ],
+    },
+    'ps-all': {
+        'usage': 'cmd ps-all',
+        'examples': [
+            'cmd ps-all',
+        ],
+    },
+    'ps-user': {
+        'usage': 'cmd ps-user <username>',
+        'examples': [
+            'cmd ps-user alice',
+        ],
+    },
+    'ps-aux': {
+        'usage': 'cmd ps-aux',
+        'examples': [
+            'cmd ps-aux',
+        ],
+    },
+    'ps-sort-memory': {
+        'usage': 'cmd ps-sort-memory',
+        'examples': [
+            'cmd ps-sort-memory',
+        ],
+    },
+    'ps-sort-cpu': {
+        'usage': 'cmd ps-sort-cpu',
+        'examples': [
+            'cmd ps-sort-cpu',
+        ],
+    },
+    'ps-grep': {
+        'usage': 'cmd ps-grep <keyword>',
+        'examples': [
+            'cmd ps-grep python',
+        ],
+    },
+    'kill': {
+        'usage': 'cmd kill <pid|keyword> [--force|-9]',
+        'examples': [
+            'cmd kill 1234',
+            'cmd kill python --force',
+        ],
+    },
+    'df': {
+        'usage': 'cmd df',
+        'examples': [
+            'cmd df',
+        ],
+    },
+    'du': {
+        'usage': 'cmd du [path]',
+        'examples': [
+            'cmd du',
+            'cmd du /var/log',
+        ],
+    },
+    'disk': {
+        'usage': 'cmd disk [path]',
+        'examples': [
+            'cmd disk',
+            'cmd disk /var/log',
+        ],
+    },
+    'rm': {
+        'usage': 'cmd rm <path> [patterns...]',
+        'examples': [
+            'cmd rm ./tmp',
+            'cmd rm ./logs *.log *.tmp',
+        ],
+    },
+    'grep': {
+        'usage': 'cmd grep <pattern> <file>',
+        'examples': [
+            'cmd grep \"TODO\" README.md',
+        ],
+    },
+    'tar': {
+        'usage': 'cmd tar <source> <output.tar|output.tar.gz> [--exclude <pattern>...]',
+        'examples': [
+            'cmd tar ./src out.tar.gz',
+            'cmd tar ./src out.tar --exclude node_modules --exclude *.log',
+        ],
+    },
+    'tar-compress': {
+        'usage': 'cmd tar-compress <source> <output.tar|output.tar.gz> [--exclude <pattern>...]',
+        'examples': [
+            'cmd tar-compress ./src out.tar.gz',
+            'cmd tar-compress ./src out.tar --exclude node_modules',
+        ],
+    },
+    'untar': {
+        'usage': 'cmd untar <archive|dir> <dest> [tar|gz|all]',
+        'examples': [
+            'cmd untar archive.tar.gz ./out',
+            'cmd untar ./archives ./out gz',
+        ],
+    },
+    'tar-extract': {
+        'usage': 'cmd tar-extract <archive|dir> <dest> [tar|gz|all]',
+        'examples': [
+            'cmd tar-extract archive.tar ./out',
+            'cmd tar-extract ./archives ./out tar',
+        ],
+    },
+    'tar-list': {
+        'usage': 'cmd tar-list <archive.tar|archive.tar.gz>',
+        'examples': [
+            'cmd tar-list archive.tar',
+        ],
+    },
+    'tar-add': {
+        'usage': 'cmd tar-add <file> <archive.tar>',
+        'examples': [
+            'cmd tar-add file.txt archive.tar',
+        ],
+    },
+    'zip': {
+        'usage': 'cmd zip <output.zip> <source...>',
+        'examples': [
+            'cmd zip out.zip src1 src2',
+            'cmd zip out.zip \"*.txt\"',
+        ],
+    },
+    'zip-compress': {
+        'usage': 'cmd zip-compress <output.zip> <source...>',
+        'examples': [
+            'cmd zip-compress out.zip ./src',
+        ],
+    },
+    'zip-all': {
+        'usage': 'cmd zip-all <output.zip> <source...>',
+        'examples': [
+            'cmd zip-all out.zip ./src',
+        ],
+    },
+    'unzip': {
+        'usage': 'cmd unzip <source_dir> <dest_dir>',
+        'examples': [
+            'cmd unzip ./zips ./out',
+        ],
+    },
+    'unzip-all': {
+        'usage': 'cmd unzip-all <source_dir> <dest_dir>',
+        'examples': [
+            'cmd unzip-all ./zips ./out',
+        ],
+    },
+    'convert-vid': {
+        'usage': 'cmd convert-vid <source|pattern> <dest|pattern>',
+        'examples': [
+            'cmd convert-vid input.mov output.mp4',
+            'cmd convert-vid \"*.mov\" ./out.mp4',
+        ],
+    },
+    'convert-video': {
+        'usage': 'cmd convert-video <source|pattern> <dest|pattern>',
+        'examples': [
+            'cmd convert-video input.mov output.mp4',
+            'cmd convert-video \"*.mov\" ./out.mp4',
+        ],
+    },
 }
 
 
 def custom_help():
-    print("Available commands:")
-    for command, description in commands.items():
-        print(f'[{command}]: {description}')
-    print(f"For more information, visit: {PROJECT_URL}")
+    print("Usage: cmd <command> [args...]")
+    print("Tip: run cmd <command> -h for command-specific usage.")
+    print("")
+    max_len = max(len(cmd) for cmd in commands)
+    groups = [
+        ("List & Count", [
+            "ls", "ls-all", "lsf", "ls-file", "lsd", "ls-dir", "ls-reverse",
+            "ls-time", "ls-human", "ls-long", "ls-size", "ls-recursive",
+            "ls-recursive-size", "ls-bs", "ls-block-size",
+        ]),
+        ("Process", [
+            "ps", "ps-all", "ps-user", "ps-aux", "ps-sort-memory",
+            "ps-sort-cpu", "ps-grep", "kill",
+        ]),
+        ("Disk & Space", ["df", "du", "disk"]),
+        ("Remove & Search", ["rm", "grep"]),
+        ("Archive (tar)", ["tar", "tar-compress", "untar", "tar-extract", "tar-list", "tar-add"]),
+        ("Archive (zip)", ["zip", "zip-compress", "zip-all", "unzip", "unzip-all"]),
+        ("Video Convert", ["convert-vid", "convert-video"]),
+    ]
+    print("Commands:")
+    for title, items in groups:
+        print(f"{title}:")
+        for command in items:
+            description = commands.get(command)
+            if description is None:
+                continue
+            usage = command_usage.get(command)
+            alias_list = aliases.get(command)
+            alias_suffix = f" ({', '.join(alias_list)})" if alias_list else ""
+            alias_of = alias_to_primary.get(command)
+            alias_of_suffix = f" (alias: {alias_of})" if alias_of else ""
+            if usage:
+                print(f"{command.ljust(max_len)}  {description}{alias_suffix}{alias_of_suffix}  e.g. {usage}")
+            else:
+                print(f"{command.ljust(max_len)}  {description}{alias_suffix}{alias_of_suffix}")
+        print("")
+    print(f"Project: {PROJECT_URL}")
+
+
+def custom_command_help(command):
+    primary = alias_to_primary.get(command, command)
+    description = commands.get(primary, "No description available.")
+    details = command_help_details.get(primary, {})
+    usage = details.get('usage') or command_usage.get(primary, f"cmd {primary} [args...]")
+    print(f"Usage: {usage}")
+    print(f"About: {description}")
+    alias_list = aliases.get(primary)
+    if alias_list:
+        print(f"Aliases: {', '.join(alias_list)}")
+    if command != primary:
+        print(f"Alias: {primary}")
+    examples = details.get('examples')
+    if examples:
+        print("Examples:")
+        for ex in examples:
+            print(f"  {ex}")
+    elif command in command_usage:
+        print("Example:")
+        print(f"  {command_usage[command]}")
+    print("Note: arguments are passed to the underlying system command when applicable.")
 
 
 
@@ -143,26 +534,33 @@ def expand_globs(args):
 
 def list_files_in_dir(path):
     try:
-        return os.listdir(path)
+        with os.scandir(path) as it:
+            return [entry.name for entry in it]
     except FileNotFoundError:
         print(f"Path not found: {path}")
         return []
 
 
 def count_dirs(root):
-    total = 0
-    for _, dirs, _ in os.walk(root):
-        total += len(dirs)
-    return total
+    try:
+        return sum(1 for entry in os.scandir(root) if entry.is_dir(follow_symlinks=False))
+    except FileNotFoundError:
+        print(f"Path not found: {root}")
+        return 0
 
 
 def count_files(root, pattern=None):
-    files = [f for f in list_files_in_dir(root) if os.path.isfile(os.path.join(root, f))]
+    try:
+        with os.scandir(root) as it:
+            names = [entry.name for entry in it if entry.is_file(follow_symlinks=False)]
+    except FileNotFoundError:
+        print(f"Path not found: {root}")
+        return 0
     if pattern is None:
-        return len(files)
+        return len(names)
     if any(ch in pattern for ch in ['*', '?', '[']):
-        return sum(1 for f in files if fnmatch(f, pattern))
-    return sum(1 for f in files if pattern in f)
+        return sum(1 for name in names if fnmatch(name, pattern))
+    return sum(1 for name in names if pattern in name)
 
 
 def filter_ps(keyword):
@@ -237,7 +635,7 @@ def main():
     # Main command and subcommands
     subparsers = parser.add_subparsers(dest='command')
     for command, description in commands.items():
-        subparser = subparsers.add_parser(command, help=description, add_help=True)
+        subparser = subparsers.add_parser(command, help=description, add_help=False)
         subparser.add_argument('extra', nargs=argparse.REMAINDER, help='Additional arguments for the command')
 
     # Parse the arguments
@@ -258,6 +656,11 @@ def main():
     if args.command is None:
         custom_help()
         return
+
+    if hasattr(args, 'extra') and args.extra:
+        if '-h' in args.extra or '--help' in args.extra:
+            custom_command_help(args.command)
+            return
 
     ls_simple = {
         'ls': [],

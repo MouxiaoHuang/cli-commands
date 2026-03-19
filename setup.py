@@ -22,7 +22,7 @@ VERSION, PROJECT_URL = read_metadata()
 
 
 setup(
-    name='cli-commands',
+    name='cli-commands-kit',
     version=VERSION,
     packages=find_packages(),
     entry_points={

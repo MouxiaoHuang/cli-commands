@@ -2,10 +2,18 @@
 # cli-commands
 
 [![CI](https://github.com/MouxiaoHuang/cli-commands/actions/workflows/ci.yml/badge.svg)](https://github.com/MouxiaoHuang/cli-commands/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/cli-commands)](https://pypi.org/project/cli-commands/)
+[![PyPI](https://img.shields.io/pypi/v/cli-commands-kit)](https://pypi.org/project/cli-commands-kit/)
 [![GitHub stars](https://img.shields.io/github/stars/MouxiaoHuang/cli-commands)](https://github.com/MouxiaoHuang/cli-commands/stargazers)
 
 `cli-commands` provides a single entrypoint for common terminal tasks. It keeps commands short, consistent, and easy to remember.
+
+
+## Package Names
+
+- **GitHub repo**: `cli-commands`
+- **PyPI package**: `cli-commands-kit` (install with `pip install cli-commands-kit`)
+- **Legacy package**: `linux-command` (older name; still installable but no longer updated)
+
 
 ## Why cli-commands
 
@@ -16,7 +24,7 @@ Linux commands are powerful but easy to forget, especially for archives and proc
 To install the package, run the following command:
 
 ```bash
-pip install cli-commands
+pip install cli-commands-kit
 ```
 
 ## Install From Source (Development)

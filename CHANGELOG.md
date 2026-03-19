@@ -7,6 +7,11 @@
 - Fixed:
 
 
+
+## 1.0.1
+
+- Changed: README clarifies repo vs PyPI package names and legacy package note.
+
 ## 1.0.0
 
 - Added: `cli` entrypoint (alias of `cmd`).

@@ -1,8 +1,9 @@
-
 # cli-commands
 
+[![GitHub repo](https://img.shields.io/badge/GitHub-cli--commands-181717?logo=github)](https://github.com/MouxiaoHuang/cli-commands)
 [![CI](https://github.com/MouxiaoHuang/cli-commands/actions/workflows/ci.yml/badge.svg)](https://github.com/MouxiaoHuang/cli-commands/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/cli-commands-kit)](https://pypi.org/project/cli-commands-kit/)
+[![License](https://img.shields.io/pypi/l/cli-commands-kit)](https://pypi.org/project/cli-commands-kit/)
 [![GitHub stars](https://img.shields.io/github/stars/MouxiaoHuang/cli-commands)](https://github.com/MouxiaoHuang/cli-commands/stargazers)
 
 `cli-commands` provides a single entrypoint for common terminal tasks. It keeps commands short, consistent, and easy to remember.
@@ -43,7 +44,7 @@ Once installed, run commands with `cmd <command> [args...]` or `cli <command> [a
 
 - `cmd -h` / `cmd --help` lists all available commands.
 - `cmd <command> -h` shows usage and examples for a specific command.
-- `cli` behaves the same as `cmd` (alternate entrypoint).
+- **`cli` behaves the same as `cmd` (alternate entrypoint).**
 
 Quick examples:
 

@@ -8,6 +8,11 @@
 
 
 
+
+## 1.0.2
+
+- Changed: update docs and metadata for latest release.
+
 ## 1.0.1
 
 - Changed: README clarifies repo vs PyPI package names and legacy package note.

@@ -1,22 +1,22 @@
 
-# linux-command
+# cli-commands
 
-[![CI](https://github.com/MouxiaoHuang/linux-command/actions/workflows/ci.yml/badge.svg)](https://github.com/MouxiaoHuang/linux-command/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/linux-command)](https://pypi.org/project/linux-command/)
-[![GitHub stars](https://img.shields.io/github/stars/MouxiaoHuang/linux-command)](https://github.com/MouxiaoHuang/linux-command/stargazers)
+[![CI](https://github.com/MouxiaoHuang/cli-commands/actions/workflows/ci.yml/badge.svg)](https://github.com/MouxiaoHuang/cli-commands/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/cli-commands)](https://pypi.org/project/cli-commands/)
+[![GitHub stars](https://img.shields.io/github/stars/MouxiaoHuang/cli-commands)](https://github.com/MouxiaoHuang/cli-commands/stargazers)
 
-`linux-command` provides a single `cmd` entrypoint for common Linux tasks. It keeps commands short, consistent, and easy to remember.
+`cli-commands` provides a single entrypoint for common terminal tasks. It keeps commands short, consistent, and easy to remember.
 
-## Why linux-command
+## Why cli-commands
 
-Linux commands are powerful but easy to forget, especially for archives and process checks. `linux-command` lowers the mental load with a unified syntax that reads like the task itself. For example, `cmd tar <source> <output.tar>` means “pack `<source>` into `<output.tar>`,” no long flags to recall.
+Linux commands are powerful but easy to forget, especially for archives and process checks. `cli-commands` lowers the mental load with a unified syntax that reads like the task itself. For example, `cmd tar <source> <output.tar>` means “pack `<source>` into `<output.tar>`,” no long flags to recall.
 
 ## Installation
 
 To install the package, run the following command:
 
 ```bash
-pip install linux-command
+pip install cli-commands
 ```
 
 ## Install From Source (Development)
@@ -24,17 +24,18 @@ pip install linux-command
 If you want to develop or modify the tool locally:
 
 ```bash
-git clone https://github.com/MouxiaoHuang/linux-command.git
-cd linux-command
+git clone https://github.com/MouxiaoHuang/cli-commands.git
+cd cli-commands
 pip install -e .
 ```
 
 ## Usage
 
-Once installed, run commands with `cmd <command> [args...]`.
+Once installed, run commands with `cmd <command> [args...]` or `cli <command> [args...]`.
 
 - `cmd -h` / `cmd --help` lists all available commands.
 - `cmd <command> -h` shows usage and examples for a specific command.
+- `cli` behaves the same as `cmd` (alternate entrypoint).
 
 Quick examples:
 
@@ -56,7 +57,7 @@ Full command list, examples, and aliases live in [`USAGE.md`](USAGE.md).
 
 ## Contributing
 
-We welcome contributions from the community! If you'd like to help improve `linux-command`, feel free to report issues or submit pull requests.
+We welcome contributions from the community! If you'd like to help improve `cli-commands`, feel free to report issues or submit pull requests.
 
 ### Guidelines for Contributors
 
@@ -66,7 +67,7 @@ We welcome contributions from the community! If you'd like to help improve `linu
 
 ### Thank you!
 
-Thank you for your interest in contributing to `linux-command`! Your contributions are greatly appreciated and help make this tool better for everyone. For any questions or to get started, feel free to reach out or open an issue.
+Thank you for your interest in contributing to `cli-commands`! Your contributions are greatly appreciated and help make this tool better for everyone. For any questions or to get started, feel free to reach out or open an issue.
 
 ---
 

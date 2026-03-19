@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Linux Command Wrapper
+CLI Command Wrapper
 
 Copyright (c) 2024 Mouxiao Huang (huangmouxiao@gmail.com)
 
@@ -23,7 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-For more information, visit the project page: https://github.com/MouxiaoHuang/linux-command
+For more information, visit the project page: https://github.com/MouxiaoHuang/cli-commands
 """
 import argparse
 import glob
@@ -35,8 +35,8 @@ from fnmatch import fnmatch
 
 
 # Define the version 
-VERSION = "0.3.2"
-PROJECT_URL = "https://github.com/MouxiaoHuang/linux-command" 
+VERSION = "1.0.0"
+PROJECT_URL = "https://github.com/MouxiaoHuang/cli-commands" 
 
 
 # Command descriptions (short and precise)
@@ -420,8 +420,9 @@ command_help_details = {
 
 
 def custom_help():
-    print("Usage: cmd <command> [args...]")
+    print("Usage: cmd|cli <command> [args...]")
     print("Tip: run cmd <command> -h for command-specific usage.")
+    print("Note: cli is an alternate entrypoint with the same behavior.")
     print("")
     max_len = max(len(cmd) for cmd in commands)
     groups = [
@@ -466,6 +467,7 @@ def custom_command_help(command):
     details = command_help_details.get(primary, {})
     usage = details.get('usage') or command_usage.get(primary, f"cmd {primary} [args...]")
     print(f"Usage: {usage}")
+    print("Entrypoints: cmd, cli")
     print(f"About: {description}")
     alias_list = aliases.get(primary)
     if alias_list:
@@ -624,7 +626,7 @@ def kill_processes(target, force=False):
 def main():
     # Set up argparse
     parser = argparse.ArgumentParser(
-        description="Linux Command Wrapper - Execute common Linux commands easily",
+        description="CLI Command Wrapper - Execute common Linux commands easily",
         epilog=f"Project page: {PROJECT_URL}",
         add_help=False
     )
@@ -650,7 +652,7 @@ def main():
         return
 
     if args.version:
-        print(f'linux-command {VERSION}')
+        print(f'cli-commands {VERSION}')
         return
     
     if args.command is None:

@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for considering contributing to linux-command.
+Thanks for considering contributing to cli-commands.
 
 ## Getting Started
 

@@ -6,6 +6,16 @@
 - Changed:
 - Fixed:
 
+
+## 1.0.0
+
+- Added: `cli` entrypoint (alias of `cmd`).
+- Changed: package/repo/module renamed to `cli-commands`/`cli_commands`.
+- Changed: help output grouped by function with alias hints.
+- Changed: README and USAGE refreshed; quick examples and directory links.
+- Changed: file counting now uses `os.scandir` for performance.
+- Fixed: expanded tests and renamed test module for new package layout.
+
 ## 0.3.2
 
 - Added: grouped `cmd -h` output with alias hints; alias-aware command help.

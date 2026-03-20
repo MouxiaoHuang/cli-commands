@@ -13,12 +13,12 @@
 
 - **GitHub repo**: `cli-commands`
 - **PyPI package**: `cli-commands-kit` (install with `pip install cli-commands-kit`)
-- **Legacy package**: `linux-command` (older name; still installable but no longer updated)
+- **Legacy package**: `linux-command` (older name; still installable but no longer updated via `pip install linux-command` with `cmd` entrypoint)
 
 
 ## Why cli-commands
 
-Linux commands are powerful but easy to forget, especially for archives and process checks. `cli-commands` lowers the mental load with a unified syntax that reads like the task itself. For example, `cmd tar <source> <output.tar>` means “pack `<source>` into `<output.tar>`,” no long flags to recall.
+Terminal commands are powerful but easy to forget, especially for archives and process checks. `cli-commands` lowers the mental load with a unified syntax that reads like the task itself. For example, `cli tar <source> <output.tar>` means “pack `<source>` into `<output.tar>`,” no long flags to recall.
 
 ## Installation
 
@@ -40,26 +40,26 @@ pip install -e .
 
 ## Usage
 
-Once installed, run commands with `cmd <command> [args...]` or `cli <command> [args...]`.
+Once installed, run commands with `cli <command> [args...]` or `cmd <command> [args...]`.
 
-- `cmd -h` / `cmd --help` lists all available commands.
-- `cmd <command> -h` shows usage and examples for a specific command.
-- **`cli` behaves the same as `cmd` (alternate entrypoint).**
+- `cli -h` / `cli --help` lists all available commands.
+- `cli <command> -h` shows usage and examples for a specific command.
+- **`cmd` behaves the same as `cli` (alternate entrypoint).**
 
 Quick examples:
 
 ```bash
-cmd tar ./src out.tar.gz
-cmd untar archive.tar.gz ./out
-cmd ps-grep python
+cli tar ./src out.tar.gz
+cli untar archive.tar.gz ./out
+cli ps-grep python
 ```
 
-Before vs cmd:
+Before vs `cli-commands`:
 
 ```
-tar -czvf out.tar.gz ./src        ->  cmd tar ./src out.tar.gz
-tar -xzvf archive.tar.gz -C ./out ->  cmd untar archive.tar.gz ./out
-ps aux | grep python              ->  cmd ps-grep python
+tar -czvf out.tar.gz ./src        ->  cli tar ./src out.tar.gz
+tar -xzvf archive.tar.gz -C ./out ->  cli untar archive.tar.gz ./out
+ps aux | grep python              ->  cli ps-grep python
 ```
 
 Full command list, examples, and aliases live in [`USAGE.md`](USAGE.md).
